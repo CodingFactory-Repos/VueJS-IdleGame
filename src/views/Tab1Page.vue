@@ -2,6 +2,7 @@
   <ion-page>
     <ion-content :fullscreen="true">
       <ExploreContainer name="Tab 1 page" />
+      <h1 class="bg-blue-600 text-9xl">Hello</h1>
     </ion-content>
   </ion-page>
 </template>
