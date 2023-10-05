@@ -1,29 +1,34 @@
 <template>
-  <ion-card class="bg-gray-800 rounded-lg shadow-md p-4">
+  <div class="bg-gray-800">{{ inventoryStore.items }}</div>
+  <ion-card
+    class="bg-gray-800 rounded-lg shadow-md p-4"
+    v-for="item in itemsWithRowIds"
+    :key="item._id"
+  >
     <ion-card-content class="flex items-center">
       <!-- Image de l'usine avec cadre foncé -->
       <div class="relative w-1/3 h-1/3 mr-8">
         <img
-          src="../../public/images/miners/rollerminer_s5plus.gif"
-          alt="Image de l'usine"
+          :src="`../../public/images/miners/${item.name}.gif`"
+          :alt="`Image de ${item.name}`"
           class="w-full h-full"
         />
         <div class="absolute inset-0 bg-black opacity-30 rounded-lg"></div>
       </div>
       <div class="flex-1">
         <!-- Titre -->
-        <strong class="text-2xl font-semibold text-white">{{
-          product?.name
-        }}</strong>
+        <strong class="text-l font-semibold text-white">{{ item.name }}</strong>
         <div class="flex items-center">
-          <p class="text-lg text-white">{{ product?.generate.per.second }}</p>
+          <p class="text-lg text-white">{{ item.generate_per_second }}</p>
         </div>
+        <!-- Texte "price: 1" -->
+        <p class="ml-2 text-xl text-white">Price: {{ item.price }}</p>
         <!-- Boutons +/- -->
         <div class="flex items-center mt-2">
           <button
             type="button"
             class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center justify-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-            @click="buyLevel(product?._id)"
+            @click="buyLevel(item._id)"
           >
             Level up
             <svg
@@ -42,11 +47,7 @@
               ></path>
             </svg>
           </button>
-
-          <p class="text-3xl mx-4">{{ level }}</p>
-
-          <!-- Texte "price: 1" -->
-          <p class="ml-2 text-xl text-white">Price: {{ product?.price }}</p>
+          <p class="text-3xl mx-4">{{ item.level }}</p>
         </div>
       </div>
     </ion-card-content>
@@ -55,7 +56,7 @@
       <button
         type="button"
         class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center justify-center mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
-        @click="buyItem(product?._id)"
+        @click="buyItem(item._id)"
       >
         <svg
           class="w-3.5 h-3.5 mr-2"
@@ -74,20 +75,21 @@
       <div class="relative w-1/2 h-2 bg-gray-200 ml-4">
         <div
           class="absolute h-full bg-teal-500 transition-width duration-500"
-          :style="{ width: loadingPercentage + '%' }"
+          :style="{ width: item.loadingPercentage + '%' }"
         ></div>
       </div>
     </div>
+    <div class="flex items-center justify-center mt-4"></div>
   </ion-card>
 </template>
 
 <script setup lang="ts">
 import { useInventoryStore } from "@/stores/inventory";
-const inventoryStory = useInventoryStore();
+const inventoryStore = useInventoryStore();
 
-defineProps({
-  product: Object,
-});
+inventoryStore.fetchInventory();
 
-let loadingPercentage = 100;
+const claimReward = (itemId: string, rowId: string) => {
+  // Implémentez la logique pour récupérer et utiliser rowId ici
+};
 </script>
