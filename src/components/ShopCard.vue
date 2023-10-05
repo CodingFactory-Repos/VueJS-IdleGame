@@ -15,7 +15,7 @@
       Pour la rentabiliser, il vous faudra environ
       {{ (((product?.price / product?.generate_per_seconds)) / 60).toFixed(0) }} minutes.
     </p>
-    <div class="counter">
+    <div class="counter my-3">
       <span class="text-gray-700 flex-row flex">
         {{ product?.price_in_crypto.toFixed(5) }}
         <img
