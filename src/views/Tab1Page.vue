@@ -1,26 +1,25 @@
 <template>
-  <ion-page>
-    <ion-content :fullscreen="true">
-      <ExploreContainer />
-      <h1 class="bg-blue-600 text-9xl">Hello</h1>
-    </ion-content>
-  </ion-page>
+    <ion-page>
+        <ion-content :fullscreen="true">
+            <FactoryContainer />
+        </ion-content>
+    </ion-page>
 </template>
 
 <script setup lang="ts">
 import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
+    IonPage,
+    IonHeader,
+    IonToolbar,
+    IonTitle,
+    IonContent,
 } from "@ionic/vue";
-import ExploreContainer from "@/components/ExploreContainer.vue";
+import FactoryContainer from "@/components/FactoryContainer.vue";
 </script>
 
 <style scoped>
 ion-content {
-  --background: #ffffff url("../../public/images/bg.png") no-repeat center
-    center / cover;
+    --background: #ffffff url("../../public/images/bg.png") no-repeat center
+        center / cover;
 }
 </style>
