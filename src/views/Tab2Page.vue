@@ -2,58 +2,57 @@
   <ion-page>
     <ion-header>
       <ion-toolbar>
-        <ion-title>Tab 2</ion-title>
+        <ion-title>Shop</ion-title>
       </ion-toolbar>
     </ion-header>
     <ion-content :fullscreen="true">
       <ion-header collapse="condense">
         <ion-toolbar>
-          <ion-title size="large">Tab 2</ion-title>
+          <ion-title size="large">Shop</ion-title>
         </ion-toolbar>
       </ion-header>
 
-      <div class="card-gri dw-full max-w-sm bg-white border border-gray-200 rounded-lg shadow dark:bg-gray-800 dark:border-gray-700">
+      <div class="grid grid-cols-2">
         <ion-card v-for="(factory, index) in factories" :key="index">
-        <img class="p-8 rounded-t-lg" src="../../public/images/miners/el_monstro.gif" alt="product image" />
-    <!-- <div class="px-5 pb-5">
-        <a href="#"> -->
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ factory.name }}</h5>
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ factory.name }}</h5>
-            <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ factory.name }}</h5>
+          <img class="p-8 rounded-t-lg" src="../../public/images/miners/el_monstro.gif" alt="product image"/>
+          <!-- <div class="px-5 pb-5">
+              <a href="#"> -->
+          <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ factory.name }}</h5>
+          <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ factory.name }}</h5>
+          <h5 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">{{ factory.name }}</h5>
 
-        <!-- </a> -->
-        <div class="flex items-center justify-between">
-          <div class="counter">
-                    <ion-button @click="decrementCount(index)">-</ion-button>
-                    <span>{{ factory.count }}</span>
-                    <ion-button @click="incrementCount(index)">+</ion-button>
-                    <span>{{ factory.montant }} crédits</span>
+          <!-- </a> -->
+          <div class="flex items-center justify-between">
+            <div class="counter">
+              <ion-button @click="decrementCount(index)">-</ion-button>
+              <span>{{ factory.count }}</span>
+              <ion-button @click="incrementCount(index)">+</ion-button>
+              <span>{{ factory.montant }} crédits</span>
+            </div>
+
+            <!-- <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a> -->
           </div>
-
-          <!-- <a href="#" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Add to cart</a> -->
-        </div>
-        <button type="button" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-center w-full mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
-  <svg class="w-3.5 h-3.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 18 21">
-    <path d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175 .745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
-  </svg>
-  Buy now
-</button>
-
-
-</ion-card>
-    </div>
-        <!-- </div> -->
+          <button type="button"
+                  class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center justify-center w-full mr-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">
+            <svg class="w-3.5 h-3.5 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor"
+                 viewBox="0 0 18 21">
+              <path
+                  d="M15 12a1 1 0 0 0 .962-.726l2-7A1 1 0 0 0 17 3H3.77L3.175 .745A1 1 0 0 0 2.208 0H1a1 1 0 0 0 0 2h.438l.6 2.255v.019l2 7 .746 2.986A3 3 0 1 0 9 17a2.966 2.966 0 0 0-.184-1h2.368c-.118.32-.18.659-.184 1a3 3 0 1 0 3-3H6.78l-.5-2H15Z"/>
+            </svg>
+            Buy now
+          </button>
 
 
+        </ion-card>
+      </div>
+      <!-- </div> -->
     </ion-content>
   </ion-page>
 </template>
 
 
-  
-
 <script setup lang="ts">
-import { ref } from 'vue';
+import {ref} from 'vue';
 
 // Créez une liste d'usines avec leurs données
 const factories = ref([
@@ -97,10 +96,6 @@ import ExploreContainer from "@/components/ExploreContainer.vue";
 </script>
 
 <style scoped>
-ion-content {
-  --background: #ffffff url("../../public/images/bg.png") no-repeat center
-    center / cover;
-}
 /* Style pour la mise en page de chaque carte */
 .card-content {
   display: flex;
@@ -113,7 +108,7 @@ ion-card {
 
 .card-image {
   text-align: center;
-  padding-top: 1px; 
+  padding-top: 1px;
 }
 
 .card-image img {
@@ -183,6 +178,7 @@ ion-button[expand="full"] {
 ion-card {
   max-width: 100%;
 }
+
 @media (max-width: 600px) {
   .card-grid {
     grid-template-columns: repeat(1, 1fr); /* Une colonne par ligne */
