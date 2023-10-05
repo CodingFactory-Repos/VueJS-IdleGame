@@ -118,5 +118,35 @@ export const useInventoryStore = defineStore("inventory", {
 
             this.items = items;
         },
+
+        async sellItem(item_id: string) {
+            const inventory = await axios.post(
+                "http://localhost:3001/marketplace/sell-item",
+                { id: item_id },
+                getBearerToken()
+            );
+
+            if (inventory.data.message) {
+                console.log(inventory.data.message);
+                return;
+            }
+
+            // Mettez à jour les données de l'inventaire après avoir réclamé la récompense
+            const items = await Promise.all(
+                inventory?.data?.map(async (item: InventoryItem) => {
+                    const response = await axios.get(
+                        `http://localhost:3001/shop/item/${item.item_id}`,
+                        getBearerToken()
+                    );
+
+                    return {
+                        inventory_data: item,
+                        shop_data: response.data,
+                    };
+                })
+            );
+
+            this.items = items;
+        }
     },
 });
