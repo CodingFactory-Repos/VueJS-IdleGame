@@ -1,8 +1,7 @@
 <template>
   <ion-page>
     <ion-content :fullscreen="true">
-      <ExploreContainer />
-      <h1 class="bg-blue-600 text-9xl">Hello</h1>
+      <FactoryContainer />
     </ion-content>
   </ion-page>
 </template>
@@ -15,7 +14,7 @@ import {
   IonTitle,
   IonContent,
 } from "@ionic/vue";
-import ExploreContainer from "@/components/ExploreContainer.vue";
+import FactoryContainer from "@/components/FactoryContainer.vue";
 </script>
 
 <style scoped>
