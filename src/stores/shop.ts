@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import axios from "axios";
+import {getBearerToken} from "@/config/axios.config";
 
 export interface Product {
     _id: string;
@@ -33,7 +34,7 @@ export const useShopStore = defineStore("shop", {
     actions: {
         async fetchProducts() {
             this.loading = true;
-            const response = await axios.get("http://localhost:3001/shop");
+            const response = await axios.get("http://localhost:3001/shop", getBearerToken());
             this.products = response.data;
             this.loading = false;
 
@@ -44,7 +45,7 @@ export const useShopStore = defineStore("shop", {
             const response = await axios.post(
                 "http://localhost:3001/shop/buy-item",
                 { id },
-                { headers: { token: localStorage.getItem("token") } }
+                getBearerToken()
             );
 
             return response;
