@@ -1,6 +1,7 @@
 import { defineStore } from "pinia";
 import axios from "axios";
-import {getBearerToken} from "@/config/axios.config";
+import { getBearerToken } from "@/config/axios.config";
+import { useUserStore } from "./user";
 
 export interface Product {
     _id: string;
@@ -34,7 +35,10 @@ export const useShopStore = defineStore("shop", {
     actions: {
         async fetchProducts() {
             this.loading = true;
-            const response = await axios.get("http://localhost:3001/shop", getBearerToken());
+            const response = await axios.get(
+                "http://localhost:3001/shop",
+                getBearerToken()
+            );
             this.products = response.data;
             this.loading = false;
 
@@ -42,13 +46,27 @@ export const useShopStore = defineStore("shop", {
         },
 
         async buyProduct(id: string) {
-            const response = await axios.post(
-                "http://localhost:3001/shop/buy-item",
-                { id },
+            const userStore = useUserStore();
+            const response = await axios
+                .post(
+                    "http://localhost:3001/shop/buy-item",
+                    { id },
+                    getBearerToken()
+                )
+                .then(() => {
+                    userStore.fetchUser();
+                });
+
+            return response;
+        },
+
+        async fetchProduct(id: string) {
+            const response = await axios.get(
+                `http://localhost:3001/shop/item`,
                 getBearerToken()
             );
 
-            return response;
+            return response.data;
         },
     },
 });
