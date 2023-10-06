@@ -14,7 +14,7 @@
               <input type="password" id="password" placeholder="Password" v-model="password"/>
             </div>
 
-            <button class="btn-login" type="submit">Login</button>
+            <button class="btn-login" type="submit">Login</button><br><br>
             <router-link to="/register" class="btn-login">Register</router-link>
           </form>
         </div>
