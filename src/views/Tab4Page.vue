@@ -39,7 +39,7 @@
         <!-- Achievement pour être au niveau 10 -->
         <div
           class="bg-gray-300 shadow-md p-2 flex items-center space-x-2 rounded-lg cursor-pointer"
-          :class="{ 'bg-green-700': user?.level >= 10 }"
+          :class="{ 'bg-green-700': user?.level >= 5 }"
         >
           <img
             src="../../public/images/achivements/bitcoin-1.png"
