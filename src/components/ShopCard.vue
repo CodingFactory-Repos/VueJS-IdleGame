@@ -55,14 +55,23 @@
 
 <script setup lang="ts">
 import { useShopStore } from "@/stores/shop";
+import {useUserStore} from "@/stores/user";
 
 const shopStore = useShopStore();
+const userStore = useUserStore();
 
 defineProps({
   product: Object,
 });
 
 const buyItem = (_id: string) => {
+    if(userStore.getUser?.used_slots >= userStore.getUser?.slots_number) {
+        alert("Vous n'avez plus de place dans votre inventaire.");
+        return;
+    }
+
   shopStore.buyProduct(_id);
+  userStore.fetchUser()
+
 };
 </script>

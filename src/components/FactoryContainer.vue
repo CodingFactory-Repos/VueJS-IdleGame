@@ -218,7 +218,6 @@ onMounted(async () => {
 
     try {
         await inventoryStore.fetchInventory();
-        console.log(inventoryStore.getItems);
     } catch (error) {
         console.error("Error fetching inventory:", error);
         // Handle the error as needed

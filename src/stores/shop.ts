@@ -2,6 +2,7 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { getBearerToken } from "@/config/axios.config";
 import { useUserStore } from "./user";
+import {useInventoryStore} from "@/stores/inventory";
 
 export interface Product {
     _id: string;
@@ -47,6 +48,7 @@ export const useShopStore = defineStore("shop", {
 
         async buyProduct(id: string) {
             const userStore = useUserStore();
+            const inventoryStore = useInventoryStore();
             const response = await axios
                 .post(
                     "http://localhost:3001/shop/buy-item",
@@ -55,6 +57,7 @@ export const useShopStore = defineStore("shop", {
                 )
                 .then(() => {
                     userStore.fetchUser();
+                    inventoryStore.fetchInventory();
                 });
 
             return response;
