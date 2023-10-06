@@ -2,31 +2,30 @@ import { defineStore } from "pinia";
 import axios from "axios";
 import { getBearerToken } from "@/config/axios.config";
 import { useUserStore } from "./user";
-import {useInventoryStore} from "@/stores/inventory";
 
-export interface Product {
+export interface Marketplace {
     _id: string;
     name: string;
     image: string;
     price: number;
     generate_per_seconds: number;
     eur_to: string;
-    slots: number;
-    xp: number;
+    level: number;
+    selledBy: string;
 }
 
-interface ShopState {
-    products: Product[];
+interface MarketplaceState {
+    products: Marketplace[];
     loading: boolean;
 }
 
-export const useShopStore = defineStore("shop", {
-    state: (): ShopState => ({
+export const useMarketplaceStore = defineStore("marketplace", {
+    state: (): MarketplaceState => ({
         products: [],
         loading: false,
     }),
     getters: {
-        getProducts(): Product[] {
+        getMarketplaces(): Marketplace[] {
             return this.products;
         },
         isLoading(): boolean {
@@ -34,10 +33,10 @@ export const useShopStore = defineStore("shop", {
         },
     },
     actions: {
-        async fetchProducts() {
+        async fetchMarketplaces() {
             this.loading = true;
             const response = await axios.get(
-                "http://localhost:3001/shop",
+                "http://localhost:3001/marketplace",
                 getBearerToken()
             );
             this.products = response.data;
@@ -46,30 +45,19 @@ export const useShopStore = defineStore("shop", {
             return this.products;
         },
 
-        async buyProduct(id: string) {
+        async buyMarketplace(id: string) {
             const userStore = useUserStore();
-            const inventoryStore = useInventoryStore();
             const response = await axios
                 .post(
-                    "http://localhost:3001/shop/buy-item",
+                    "http://localhost:3001/marketplace/buy-item",
                     { id },
                     getBearerToken()
                 )
                 .then(() => {
                     userStore.fetchUser();
-                    inventoryStore.fetchInventory();
                 });
 
             return response;
-        },
-
-        async fetchProduct(id: string) {
-            const response = await axios.get(
-                `http://localhost:3001/shop/item`,
-                getBearerToken()
-            );
-
-            return response.data;
-        },
+        }
     },
 });

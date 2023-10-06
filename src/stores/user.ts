@@ -12,6 +12,9 @@ export class User {
     xp: number;
     xp_to_next_level: number;
     last_daily: number;
+    hasTenBTC: boolean;
+    hasGraphicsCard: boolean;
+
 
     constructor() {
         this.username = "";
@@ -23,6 +26,8 @@ export class User {
         this.xp = 0;
         this.xp_to_next_level = 0;
         this.last_daily = 0;
+        this.hasTenBTC = false;
+        this.hasGraphicsCard = false;
     }
 }
 

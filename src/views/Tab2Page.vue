@@ -14,15 +14,18 @@
 
       <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         <ion-card class="flex flex-col items-center justify-center">
-          <h3 class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white">
-            Vous avez actuellement {{ user?.money.toFixed(5) }} BTC.
+          <h3
+            class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
+          >
+            Vous avez actuellement
+            {{ userStore.getUser?.money.toFixed(5) }} BTC.
           </h3>
         </ion-card>
         <div v-if="!shopStore.isLoading">
           <ShopCard
-              v-for="(product, index) in shop"
-              :key="index"
-              :product="product"
+            v-for="(product, index) in shop"
+            :key="index"
+            :product="product"
           />
         </div>
         <div v-else>
@@ -35,28 +38,31 @@
 </template>
 
 <script setup lang="ts">
-import {onMounted, ref} from "vue";
+import { onMounted, ref } from "vue";
 import ShopCard from "@/components/ShopCard.vue";
 
-import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar,} from "@ionic/vue";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/vue";
 
-import {Product, useShopStore} from "@/stores/shop";
-import {User, useUserStore} from "@/stores/user";
+import { Product, useShopStore } from "@/stores/shop";
+import { User, useUserStore } from "@/stores/user";
 
 const shopStore = useShopStore();
 const userStore = useUserStore();
 
 const shop = ref<Product[]>([]);
-const user = ref<User>();
 
 onMounted(async () => {
   shop.value = await shopStore.fetchProducts();
-
-  user.value = await userStore.fetchUser();
+  userStore.fetchUser();
 });
 </script>
 
-<style scoped>
-</style>
+<style scoped></style>
 
 <!-- <img src="../../public/images/miners/el_monstro.gif" :alt="'Image de l\'usine '" /> -->

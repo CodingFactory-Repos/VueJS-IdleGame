@@ -15,9 +15,7 @@
       {{ product?.eur_to }} (Soit {{ product?.generate_per_seconds }} € par
       seconde). Elle coûte {{ product?.price }} €. Pour la rentabiliser, il vous
       faudra environ
-      {{
-        (product?.price / product?.generate_per_seconds / 60).toFixed(0)
-      }}
+      {{ (product?.price / product?.generate_per_seconds / 60).toFixed(0) }}
       minutes.
     </p>
     <div class="counter my-3">
@@ -57,14 +55,23 @@
 
 <script setup lang="ts">
 import { useShopStore } from "@/stores/shop";
+import {useUserStore} from "@/stores/user";
 
 const shopStore = useShopStore();
+const userStore = useUserStore();
 
 defineProps({
   product: Object,
 });
 
 const buyItem = (_id: string) => {
+    if(userStore.getUser?.used_slots >= userStore.getUser?.slots_number) {
+        alert("Vous n'avez plus de place dans votre inventaire.");
+        return;
+    }
+
   shopStore.buyProduct(_id);
+  userStore.fetchUser()
+
 };
 </script>
