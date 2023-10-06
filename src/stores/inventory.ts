@@ -44,21 +44,7 @@ export const useInventoryStore = defineStore("inventory", {
                     getBearerToken()
                 );
 
-                const items = await Promise.all(
-                    inventory.data.items.map(async (item: InventoryItem) => {
-                        const response = await axios.get(
-                            `http://localhost:3001/shop/item/${item.item_id}`,
-                            getBearerToken()
-                        );
-
-                        return {
-                            inventory_data: item,
-                            shop_data: response.data,
-                        };
-                    })
-                );
-
-                this.items = items;
+                this.items = inventory.data;
                 this.loading = false;
             } catch (error) {
                 console.error(
@@ -69,18 +55,20 @@ export const useInventoryStore = defineStore("inventory", {
             this.loading = false;
         },
 
-        async claimReward(itemId: string, rowId: string) {
+        async claimReward(item_id: string, row_id: string) {
             try {
                 const response = await axios.post(
-                    "http://localhost:3001/user/item  -reward",
-                    { itemId, rowId },
+                    "http://localhost:3001/inventory/item-reward",
+                    { item_id, row_id },
                     getBearerToken()
                 );
 
-                // Mettez à jour les données de l'inventaire après avoir réclamé la récompense
-                this.items = response.data.items;
+                const inventory = await axios.get(
+                    "http://localhost:3001/user/inventory",
+                    getBearerToken()
+                );
 
-                console.log("Récompense réclamée avec succès");
+                this.items = inventory.data;
             } catch (error) {
                 console.error(
                     "Erreur lors de la réclamation de la récompense :",
@@ -147,6 +135,6 @@ export const useInventoryStore = defineStore("inventory", {
             );
 
             this.items = items;
-        }
+        },
     },
 });
