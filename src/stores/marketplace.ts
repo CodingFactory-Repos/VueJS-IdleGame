@@ -49,7 +49,7 @@ export const useMarketplaceStore = defineStore("marketplace", {
             const userStore = useUserStore();
             const response = await axios
                 .post(
-                    "http://localhost:3001/shop/buy-item",
+                    "http://localhost:3001/marketplace/buy-item",
                     { id },
                     getBearerToken()
                 )
