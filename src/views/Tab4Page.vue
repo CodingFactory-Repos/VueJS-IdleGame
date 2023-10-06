@@ -1,56 +1,82 @@
 <template>
-  <div class="min-h-screen">
-    <div class="py-10">
-      <div class="max-w-3xl mx-auto">
-        <h1 class="text-3xl font-semibold text-center mb-5">Achievements</h1>
-        <div class="space-y-4">
-          <div
-            v-for="(achievement, index) in achievements"
-            :key="index"
-            class="bg-gray-800 shadow-md p-2 flex items-center space-x-2 rounded-lg cursor-pointer"
-            :class="{ 'bg-green-700': achievement.unlocked }"
-            @click="showAchievementAlert(achievement)"
+  <ion-page>
+    <ion-header>
+      <ion-toolbar>
+        <ion-title>Achievements</ion-title>
+      </ion-toolbar>
+    </ion-header>
+    <ion-content :fullscreen="true">
+      <ion-header collapse="condense">
+        <ion-toolbar>
+          <ion-title size="large">Achievements</ion-title>
+        </ion-toolbar>
+      </ion-header>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+        <ion-card class="flex flex-col items-center justify-center">
+          <h3
+            class="text-xl font-semibold tracking-tight text-gray-900 dark:text-white"
           >
-            <img
-              v-if="achievement.image"
-              :src="achievement.image"
-              alt="Achievement"
-              class="w-10 h-10"
-            />
-            <div class="flex-1">
-              <h2 class="text-lg font-semibold text-white">
-                {{ achievement.title }}
-              </h2>
-              <p class="text-gray-300">{{ achievement.description }}</p>
-            </div>
+            Vous avez actuellement {{ user?.money.toFixed(5) }} BTC.
+          </h3>
+        </ion-card>
+
+        <div
+          class="bg-gray-300 shadow-md p-2 flex items-center space-x-2 rounded-lg cursor-pointer"
+          :class="{ 'bg-green-700': user?.money >= 1000 }"
+        >
+          <img
+            src="../../public/images/achivements/bitcoin-1.png"
+            alt="Achievement"
+            class="w-10 h-10"
+          />
+          <div class="flex-1">
+            <h2 class="text-lg font-semibold">Posséder 1000 BTC</h2>
+            <p class="text-gray-600">Félicitations ! Vous avez 1000 BTC.</p>
           </div>
         </div>
+
+        <!-- Achievement pour être au niveau 10 -->
+        <div
+          class="bg-gray-300 shadow-md p-2 flex items-center space-x-2 rounded-lg cursor-pointer"
+          :class="{ 'bg-green-700': user?.level >= 10 }"
+        >
+          <img
+            src="../../public/images/achivements/bitcoin-1.png"
+            alt="Achievement"
+            class="w-10 h-10"
+          />
+          <div class="flex-1">
+            <h2 class="text-lg font-semibold">Niveau 10 atteint</h2>
+            <p class="text-gray-600">Bravo ! Vous avez atteint le niveau 10.</p>
+          </div>
+        </div>
+
+        <!-- Le reste de votre code pour afficher d'autres achievements -->
       </div>
-    </div>
-  </div>
+    </ion-content>
+  </ion-page>
 </template>
 
 <script setup lang="ts">
-import { ref } from "vue";
+import { onMounted, ref } from "vue";
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/vue";
+import { User, useUserStore } from "@/stores/user";
 
-const achievements = ref([
-  {
-    title: "Première réalisation",
-    description: "Débloquez votre première réalisation",
-    unlocked: true,
-    image: "../../public/images/achivements/bitcoin-1.png",
-  },
-  {
-    title: "Réalisation avancée",
-    description:
-      "Accomplissez une tâche avancée pour débloquer cette réalisation",
-    unlocked: false,
-    image: "../../public/images/achivements/bitcoin-1.png",
-  },
-  // Ajoutez d'autres réalisations ici
-]);
+const userStore = useUserStore();
 
-const showAchievementAlert = (achievement: any) => {
-  alert(achievement.description);
-};
+const user = ref<User>();
+
+onMounted(async () => {
+  // Récupérez les données de l'utilisateur
+  user.value = await userStore.fetchUser();
+});
 </script>
+
+<style scoped></style>
