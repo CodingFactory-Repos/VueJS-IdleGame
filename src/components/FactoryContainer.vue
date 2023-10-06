@@ -1,4 +1,10 @@
 <template>
+  <ion-alert
+      header="Vendre un mineur"
+      :buttons="alertButtons"
+      :inputs="alertInputs"
+  ></ion-alert>
+
   <div>
     <div v-if="inventoryStore.isLoading">Loading...</div>
     <div v-else>
@@ -18,13 +24,15 @@
               ></div>
             </div>
             <div class="flex-1">
-              <h1 class="text-2xl text-white font-bold">
+              <h1 class="text-2xl font-bold">
                 {{ item.shop_data.name }}
               </h1>
               <!-- Texte "price: 1" -->
               <p class="ml-2 text-xl">
                 Votre GPU vous rapporte
-                {{ (item.shop_data.generate_per_seconds + (item.inventory_data.level - 1) * 0.1 * item.shop_data.generate_per_seconds).toFixed(2) }} €/s
+                {{
+                  (item.shop_data.generate_per_seconds + (item.inventory_data.level - 1) * 0.1 * item.shop_data.generate_per_seconds).toFixed(2)
+                }} €/s
               </p>
             </div>
           </ion-card-content>
@@ -65,9 +73,10 @@
                 item.inventory_data.level + 1
               }}
             </button>
-            <button type="button"
-                    class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center justify-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
-                    @click="inventoryStore.sellItem(item.inventory_data.item_id)"
+            <button
+                type="button"
+                class="text-white bg-red-700 hover:bg-red-800 focus:ring-4 focus:outline-none focus:ring-red-300 font-medium rounded-lg text-sm px-4 py-2 text-center inline-flex items-center justify-center mr-2 dark:bg-red-600 dark:hover:bg-red-700 dark:focus:ring-red-800"
+                @click="showSellAlert"
             >
               Sell Miner
             </button>
@@ -89,9 +98,46 @@
 
 <script setup lang="ts">
 import {useInventoryStore} from "@/stores/inventory";
+import {IonAlert} from '@ionic/vue';
 import {onMounted} from "vue";
 
 const inventoryStore = useInventoryStore();
+
+const alertInputs = [
+  {
+    name: 'price',
+    type: 'number',
+    placeholder: 'Prix de vente',
+  },
+];
+
+const alertButtons = [
+  {
+    text: 'Annuler',
+    role: 'cancel',
+    cssClass: 'secondary',
+  },
+  {
+    text: 'Vendre',
+    handler: (data: { price: number }) => {
+      const itemId = inventoryStore.getItems[0]?.inventory_data.item_id;
+      if (itemId) {
+        inventoryStore.sellItem(itemId, data.price);
+
+        // Refresh the inventory
+        inventoryStore.fetchInventory();
+      }
+    },
+  },
+];
+
+const showSellAlert = () => {
+  // Utilisez IonAlert comme un composant Vue
+  const alert = document.querySelector('ion-alert');
+  if (alert) {
+    alert.present();
+  }
+};
 
 onMounted(async () => {
   try {

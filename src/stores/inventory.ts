@@ -119,10 +119,10 @@ export const useInventoryStore = defineStore("inventory", {
             this.items = items;
         },
 
-        async sellItem(item_id: string) {
+        async sellItem(item_id: string, price: number) {
             const inventory = await axios.post(
                 "http://localhost:3001/marketplace/sell-item",
-                { id: item_id },
+                { id: item_id, price },
                 getBearerToken()
             );
 

@@ -13,8 +13,8 @@
       </ion-header>
 
       <div>
-        <ShopCard
-              v-for="(product, index) in shop"
+        <MarketplaceCard
+              v-for="(product, index) in marketplace"
               :key="index"
               :product="product"
           />
@@ -24,9 +24,29 @@
 </template>
 
 <script setup lang="ts">
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonContent } from '@ionic/vue';
-import ExploreContainer from '@/components/ExploreContainer.vue';
+import {onMounted, ref} from "vue";
 import ShopCard from "@/components/ShopCard.vue";
 
+import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar,} from "@ionic/vue";
 
+import {Product, useShopStore} from "@/stores/shop";
+import {User, useUserStore} from "@/stores/user";
+import {Marketplace, useMarketplaceStore} from "@/stores/marketplace";
+import MarketplaceCard from "@/components/MarketplaceCard.vue";
+
+const shopStore = useShopStore();
+const userStore = useUserStore();
+const marketplaceStore = useMarketplaceStore();
+
+const shop = ref<Product[]>([]);
+const user = ref<User>();
+const marketplace = ref<Marketplace[]>([]);
+
+onMounted(async () => {
+  marketplace.value = await marketplaceStore.fetchMarketplaces();
+
+  shop.value = await shopStore.fetchProducts();
+
+  user.value = await userStore.fetchUser();
+});
 </script>
