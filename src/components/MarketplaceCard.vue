@@ -17,7 +17,7 @@
       seconde). Elle coûte {{ product?.price }} €. Pour la rentabiliser, il vous
       faudra environ
       {{
-        (product?.price / generate_per_seconds / 60).toFixed(0)
+        (product?.price || 0 / generate_per_seconds / 60)
       }}
       minutes.
     </p>
@@ -57,11 +57,12 @@
 </template>
 
 <script setup lang="ts">
-import {useShopStore} from "@/stores/shop";
-import {onMounted} from "vue";
-import {Marketplace} from "@/stores/marketplace";
+import { useShopStore } from "@/stores/shop";
+import { onMounted, ref } from "vue";
+import {Marketplace, useMarketplaceStore} from "@/stores/marketplace";
 
-const shopStore = useShopStore();
+const marketplaceStore = useMarketplaceStore();
+const generate_per_seconds = ref(0);
 
 defineProps({
   product: Object as () => Marketplace
@@ -69,13 +70,14 @@ defineProps({
 
 onMounted(async () => {
   try {
-    const generate_per_seconds = (this.product?.generate_per_seconds + (this.product?.level - 1) * 0.1 * this.product?.generate_per_seconds) || 0;
+    generate_per_seconds.value =
+      (product?.generate_per_seconds + (product?.level - 1) * 0.1 * product?.generate_per_seconds) || 0;
   } catch (e) {
     console.error(e);
   }
 });
 
 const buyItem = (_id: string) => {
-  shopStore.buyProduct(_id);
+  marketplaceStore.buyMarketplace(_id);
 };
 </script>

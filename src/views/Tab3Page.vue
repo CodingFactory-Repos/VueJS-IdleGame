@@ -25,7 +25,6 @@
 
 <script setup lang="ts">
 import {onMounted, ref} from "vue";
-import ShopCard from "@/components/ShopCard.vue";
 
 import {IonContent, IonHeader, IonPage, IonTitle, IonToolbar,} from "@ionic/vue";
 
