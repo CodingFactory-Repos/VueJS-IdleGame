@@ -1,96 +1,56 @@
 <template>
-  <ion-page>
-    <ion-header>
-      <ion-toolbar>
-        <ion-title>Achievements</ion-title>
-      </ion-toolbar>
-    </ion-header>
-    <ion-content :fullscreen="true">
-      <ion-header collapse="condense">
-        <ion-toolbar>
-          <ion-title size="large">Achievements</ion-title>
-        </ion-toolbar>
-      </ion-header>
-
-      <!-- Liste des réalisations -->
-      <ion-list>
-        <ion-item
-          v-for="(achievement, index) in achievements"
-          :key="index"
-          :class="{ 'achievement-unlocked': achievement.unlocked }"
-        >
-          <ion-icon
-            :name="
-              achievement.unlocked ? 'checkmark-circle' : 'ellipse-outline'
-            "
-            :color="achievement.unlocked ? 'success' : 'medium'"
-            slot="start"
-          ></ion-icon>
-          <ion-label>
-            <h2>{{ achievement.title }}</h2>
-            <p>{{ achievement.description }}</p>
-          </ion-label>
-        </ion-item>
-      </ion-list>
-    </ion-content>
-  </ion-page>
+  <div class="min-h-screen">
+    <div class="py-10">
+      <div class="max-w-3xl mx-auto">
+        <h1 class="text-3xl font-semibold text-center mb-5">Achievements</h1>
+        <div class="space-y-4">
+          <div
+            v-for="(achievement, index) in achievements"
+            :key="index"
+            class="bg-gray-800 shadow-md p-2 flex items-center space-x-2 rounded-lg cursor-pointer"
+            :class="{ 'bg-green-700': achievement.unlocked }"
+            @click="showAchievementAlert(achievement)"
+          >
+            <img
+              v-if="achievement.image"
+              :src="achievement.image"
+              alt="Achievement"
+              class="w-10 h-10"
+            />
+            <div class="flex-1">
+              <h2 class="text-lg font-semibold text-white">
+                {{ achievement.title }}
+              </h2>
+              <p class="text-gray-300">{{ achievement.description }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
-<script>
+<script setup lang="ts">
 import { ref } from "vue";
-import {
-  IonPage,
-  IonHeader,
-  IonToolbar,
-  IonTitle,
-  IonContent,
-  IonList,
-  IonItem,
-  IonIcon,
-  IonLabel,
-} from "@ionic/vue";
-import { checkmarkCircleOutline, ellipseOutline } from "ionicons/icons";
 
-export default {
-  components: {
-    IonPage,
-    IonHeader,
-    IonToolbar,
-    IonTitle,
-    IonContent,
-    IonList,
-    IonItem,
-    IonIcon,
-    IonLabel,
+const achievements = ref([
+  {
+    title: "Première réalisation",
+    description: "Débloquez votre première réalisation",
+    unlocked: true,
+    image: "../../public/images/achivements/bitcoin-1.png",
   },
-  setup() {
-    // Liste des réalisations (à adapter avec vos données réelles)
-    const achievements = ref([
-      {
-        title: "Première réalisation",
-        description: "Débloquez votre première réalisation",
-        unlocked: true, // Changez à false pour simuler une réalisation non débloquée
-      },
-      {
-        title: "Réalisation avancée",
-        description:
-          "Accomplissez une tâche avancée pour débloquer cette réalisation",
-        unlocked: false,
-      },
-      // Ajoutez d'autres réalisations ici
-    ]);
+  {
+    title: "Réalisation avancée",
+    description:
+      "Accomplissez une tâche avancée pour débloquer cette réalisation",
+    unlocked: false,
+    image: "../../public/images/achivements/bitcoin-1.png",
+  },
+  // Ajoutez d'autres réalisations ici
+]);
 
-    return {
-      achievements,
-    };
-  },
+const showAchievementAlert = (achievement: any) => {
+  alert(achievement.description);
 };
 </script>
-
-<style scoped>
-/* Style pour les réalisations débloquées */
-.achievement-unlocked {
-  --ion-item-background: var(--ion-color-success);
-  color: white;
-}
-</style>

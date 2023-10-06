@@ -37,5 +37,11 @@ import {
   IonPage,
   IonRouterOutlet,
 } from "@ionic/vue";
-import { ellipse, homeOutline, square, triangle } from "ionicons/icons";
+import {
+  ellipse,
+  homeOutline,
+  square,
+  triangle,
+  trophyOutline,
+} from "ionicons/icons";
 </script>
